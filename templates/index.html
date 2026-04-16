@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Analyzer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span class="logo-icon">W</span>
+            <h1>Word Analyzer</h1>
+        </div>
+        <nav>
+            <button class="nav-btn active" data-view="analyze">Analyze Text</button>
+            <button class="nav-btn" data-view="known">Known Words <span class="badge" id="known-count">0</span></button>
+            <button class="nav-btn" data-view="learn">Learn List <span class="badge" id="learn-count">0</span></button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ANALYZE VIEW -->
+        <section id="view-analyze" class="view active">
+            <div class="input-panel">
+                <textarea id="text-input" placeholder="Paste your English text here…" rows="12"></textarea>
+                <div class="input-actions">
+                    <button id="btn-analyze" class="btn-primary">Analyze</button>
+                    <button id="btn-clear" class="btn-ghost">Clear</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESULT VIEW -->
+        <section id="view-result" class="view">
+            <div id="stats-bar" class="stats-bar hidden">
+                <div class="stat"><span class="stat-num" id="stat-total">0</span><span class="stat-label">words</span></div>
+                <div class="stat"><span class="stat-num" id="stat-unique">0</span><span class="stat-label">unique lemmas</span></div>
+                <div class="stat"><span class="stat-num" id="stat-known">0</span><span class="stat-label">known</span></div>
+                <div class="stat highlight"><span class="stat-num" id="stat-unknown">0</span><span class="stat-label">unknown</span></div>
+                <div class="stat"><span class="stat-num" id="stat-coverage">0%</span><span class="stat-label">coverage</span></div>
+            </div>
+            <div id="result-panel" class="result-panel"></div>
+        </section>
+
+        <!-- KNOWN WORDS VIEW -->
+        <section id="view-known" class="view">
+            <div class="list-header">
+                <h2>Known Words</h2>
+                <div class="list-actions">
+                    <input type="text" id="known-search" placeholder="Search…" class="search-input">
+                    <button id="btn-add-known" class="btn-primary btn-sm">+ Add Word</button>
+                    <button id="btn-bulk-add" class="btn-ghost btn-sm">Bulk Add</button>
+                </div>
+            </div>
+            <div id="known-list" class="word-list"></div>
+        </section>
+
+        <!-- LEARN LIST VIEW -->
+        <section id="view-learn" class="view">
+            <div class="list-header">
+                <h2>Words to Learn</h2>
+                <div class="list-actions">
+                    <input type="text" id="learn-search" placeholder="Search…" class="search-input">
+                    <button id="btn-download-csv" class="btn-ghost btn-sm">Download CSV</button>
+                    <button id="btn-download-words" class="btn-ghost btn-sm">Download Words</button>
+                </div>
+            </div>
+            <div id="learn-bulk-bar" class="learn-bulk-bar hidden">
+                <span id="learn-selection-count" class="bulk-count"></span>
+                <button id="btn-bulk-mark-known" class="btn-primary btn-sm">Mark as Known</button>
+                <button id="btn-bulk-export-csv" class="btn-ghost btn-sm">Download CSV</button>
+                <button id="btn-bulk-export-words" class="btn-ghost btn-sm">Download Words</button>
+                <button id="btn-bulk-delete" class="btn-ghost btn-sm bulk-delete">Delete</button>
+                <button id="btn-clear-selection" class="btn-ghost btn-sm">Clear</button>
+            </div>
+            <div id="learn-list" class="word-list"></div>
+        </section>
+    </main>
+
+    <!-- WORD REVIEW MODAL -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal">
+            <button class="modal-close">&times;</button>
+            <div class="modal-body">
+                <h3 id="modal-word" class="modal-word"></h3>
+                <p class="modal-lemma">lemma: <code id="modal-lemma-text"></code></p>
+                <div id="modal-contexts" class="modal-contexts"></div>
+                <div id="modal-translation" class="modal-translation hidden">
+                    <div class="translation-header">Translation</div>
+                    <div id="translation-body" class="translation-body"></div>
+                </div>
+                <div class="modal-actions">
+                    <button id="btn-mark-known" class="btn-primary">Mark as Known</button>
+                    <button id="btn-add-learn" class="btn-secondary">Add to Learn List</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BULK ADD MODAL -->
+    <div id="bulk-modal-overlay" class="modal-overlay hidden">
+        <div class="modal">
+            <button class="bulk-modal-close modal-close">&times;</button>
+            <div class="modal-body">
+                <h3>Bulk Add Known Words</h3>
+                <p class="modal-hint">One word per line</p>
+                <textarea id="bulk-input" rows="10" placeholder="hello&#10;world&#10;example"></textarea>
+                <div class="modal-actions">
+                    <button id="btn-bulk-submit" class="btn-primary">Add All</button>
+                    <button class="btn-ghost bulk-modal-close">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
