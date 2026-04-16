@@ -1,3 +1,5 @@
+# I haven't read the code
+
 # Word Analyzer
 
 A local web app that analyzes English text against your personal vocabulary database. Paste any text, see which words you don't know yet, and build your word lists.
